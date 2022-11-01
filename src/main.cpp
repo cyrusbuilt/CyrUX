@@ -1,3 +1,17 @@
+/**
+ * @file main.cpp
+ * @author Cyrus Brunner (cyrusbuilt at gmail dot com)
+ * @brief 
+ * @version 1.0
+ * @date 2022-10-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+// TODO Need to mouse support enabled, but verify functionality.
+// TODO Implement audio support
+
 #ifndef ESP32
 	#error "This firmware is only intended to run on ESP32 MCUs."
 #endif
@@ -5,7 +19,7 @@
 #include "Arduino.h"
 #include "fabgl.h"
 
-fabgl::BitmappedDisplayController* DisplayController;
+fabgl::BitmappedDisplayController*  DisplayController;
 fabgl::PS2Controller                PS2Controller;
 fabgl::Terminal                     Terminal;
 fabgl::SerialPort                   SerialPort;
@@ -25,8 +39,8 @@ void disableWatchdogs() {
 void bootScreen() {
 	if (ConfDialogApp::getBootInfo() == BOOTINFO_ENABLED) {
     	Terminal.write("* *  CyrUX - Serial Terminal                            * *\r\n");
-    	Terminal.write("* *  2022 by Cyrus Brunner - cyrusbuilt@gmail.com       * *\r\n\n");
-		Terminal.write("* *  Based on AnsiTerminal using FabGL                  * *\r\n\n");
+    	Terminal.write("* *  2022 by Cyrus Brunner - cyrusbuilt@gmail.com       * *\r\n");
+		Terminal.write("* *  Based on AnsiTerminal using FabGL                  * *\r\n");
 		Terminal.write("* *  2019-2022 by Fabrizio Di Vittorio - www.fabgl.com  * *\r\n\n");
     	Terminal.printf("Version            : %d.%d\r\n", TERMVERSION_MAJ, TERMVERSION_MIN);
     	Terminal.printf("Screen Size        : %d x %d\r\n", DisplayController->getViewPortWidth(), DisplayController->getViewPortHeight());
@@ -58,8 +72,9 @@ void configureKeyboardEvents() {
 			else if (!vkItem->CTRL && !vkItem->LALT && !vkItem->RALT && !vkItem->down) {
         		// releasing F12 key to open configuration dialog
         		Terminal.deactivate();
-        		if (PS2Controller.mouse())
+        		if (PS2Controller.mouse()) {
           			PS2Controller.mouse()->emptyQueue();  // avoid previous mouse movements to be showed on UI
+				}
         		
 				auto dlgApp = new ConfDialogApp;
         		dlgApp->run(DisplayController);

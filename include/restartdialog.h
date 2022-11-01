@@ -32,9 +32,9 @@
 #include "fabutils.h"
 
 struct RebootDialog : public uiFrame {
-  uiLabel *  label;
-  uiButton * button;
-  int        counter;
+  uiLabel*  label;
+  uiButton* button;
+  int       counter;
 
   RebootDialog(uiFrame * parent)
     : uiFrame(parent, "Terminal restart required", UIWINDOW_PARENTCENTER, Size(230, 60)) {

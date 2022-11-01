@@ -22,26 +22,26 @@ constexpr int RESOLUTION_DEFAULT = 5;
 
 static const char * RESOLUTIONS_STR[] = {
 	"1280x768, B&W",           // 0
-    "1024x720, 4 Colors",      // 1
-    "800x600, 8 Colors",       // 2
-    "720x520, 16 Colors",      // 3
-    "640x480 73Hz, 16 C.",     // 4
-    "640x480 60Hz, 16 C.",     // 5
-    "640x350, 16 Colors",      // 6
-    "512x384, 64 Colors",      // 7
-    "400x300, 64 Colors",      // 8
+  "1024x720, 4 Colors",      // 1
+  "800x600, 8 Colors",       // 2
+  "720x520, 16 Colors",      // 3
+  "640x480 73Hz, 16 C.",     // 4
+  "640x480 60Hz, 16 C.",     // 5
+  "640x350, 16 Colors",      // 6
+  "512x384, 64 Colors",      // 7
+  "400x300, 64 Colors",      // 8
 };
 
 static const char * RESOLUTIONS_CMDSTR[] = {
-	"1280x768x2",              // 0
-    "1024x720x4",              // 1
-    "800x600x8",               // 2
+  "1280x768x2",              // 0
+  "1024x720x4",              // 1
+  "800x600x8",               // 2
 	"720x520x16",              // 3
-    "640x480@73x16",           // 4
-    "640x480@60x16",           // 5
-    "640x350x16",              // 6
-    "512x384x64",              // 7
-    "400x300x64",              // 8
+  "640x480@73x16",           // 4
+  "640x480@60x16",           // 5
+  "640x350x16",              // 6
+  "512x384x64",              // 7
+  "400x300x64",              // 8
 };
 
 enum class ResolutionController {
@@ -54,38 +54,38 @@ enum class ResolutionController {
 
 static const ResolutionController RESOLUTIONS_CONTROLLER[] = {
 	ResolutionController::VGA2Controller,     // 0
-    ResolutionController::VGA4Controller,     // 1
-    ResolutionController::VGA8Controller,     // 2
-    ResolutionController::VGA16Controller,    // 3
-    ResolutionController::VGA16Controller,    // 4
-    ResolutionController::VGA16Controller,    // 5
-    ResolutionController::VGA16Controller,    // 6
-    ResolutionController::VGAController,      // 7
-    ResolutionController::VGAController,      // 8
+  ResolutionController::VGA4Controller,     // 1
+  ResolutionController::VGA8Controller,     // 2
+  ResolutionController::VGA16Controller,    // 3
+  ResolutionController::VGA16Controller,    // 4
+  ResolutionController::VGA16Controller,    // 5
+  ResolutionController::VGA16Controller,    // 6
+  ResolutionController::VGAController,      // 7
+  ResolutionController::VGAController,      // 8
 };
 
 static const char * RESOLUTIONS_MODELINE[] = {
 	SVGA_1280x768_50Hz,        // 0
-    SVGA_1024x768_75Hz,        // 1
-    SVGA_800x600_56Hz,         // 2
-    PAL_720x576_50Hz,          // 3
-    VGA_640x480_73Hz,          // 4
-    VGA_640x480_60Hz,          // 5
-    VGA_640x350_70HzAlt1,      // 6
-    VGA_512x384_60Hz,          // 7
-    VGA_400x300_60Hz,          // 8
+  SVGA_1024x768_75Hz,        // 1
+  SVGA_800x600_56Hz,         // 2
+  PAL_720x576_50Hz,          // 3
+  VGA_640x480_73Hz,          // 4
+  VGA_640x480_60Hz,          // 5
+  VGA_640x350_70HzAlt1,      // 6
+  VGA_512x384_60Hz,          // 7
+  VGA_400x300_60Hz,          // 8
 };
 
 static const int16_t RESOLUTIONS_HEIGHT[] = {
 	-1,        // 0
-    720,       // 1
-    -1,        // 2
-    520,       // 3
-    -1,        // 4
-    -1,        // 5
-    -1,        // 6
-    -1,        // 7
-    -1,        // 8
+  720,       // 1
+  -1,        // 2
+  520,       // 3
+  -1,        // 4
+  -1,        // 5
+  -1,        // 6
+  -1,        // 7
+  -1,        // 8
 };
 
 constexpr int RESOLUTIONS_COUNT = sizeof(RESOLUTIONS_STR) / sizeof(char const *);
@@ -136,7 +136,6 @@ Preferences preferences;
 
 struct ConfDialogApp : public uiApp {
   Rect             frameRect;
-  
   uiFrame*         frame;
   uiComboBox*      termComboBox;
   uiComboBox*      kbdComboBox;
@@ -167,10 +166,12 @@ struct ConfDialogApp : public uiApp {
     // F10        : save and exit
     frame->onKeyUp = [&](uiKeyEventInfo const & key) {
       if (key.VK == VirtualKey::VK_ESCAPE) {
-        if (key.CTRL)
+        if (key.CTRL) {
           performReboot();  // no return from here!
+        }
         quit(0);
       }
+
       if (key.VK == VirtualKey::VK_F10) {
         saveProps();
         quit(0);
@@ -353,10 +354,13 @@ struct ConfDialogApp : public uiApp {
   static void setupDisplay() {
     // setup display controller
     auto res = getTempResolutionIndex();
-    if (res == -1)
+    if (res == -1) {
       res = getResolutionIndex();
-    else
+    }
+    else {
       preferences.putInt(PREF_TEMPRESOLUTION, -1);
+    }
+    
     switch (RESOLUTIONS_CONTROLLER[res]) {
       case ResolutionController::VGAController:
         DisplayController = new fabgl::VGAController;
