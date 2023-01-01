@@ -2,15 +2,12 @@
  * @file main.cpp
  * @author Cyrus Brunner (cyrusbuilt at gmail dot com)
  * @brief 
- * @version 1.0
+ * @version 1.1
  * @date 2022-10-21
  * 
  * @copyright Copyright (c) 2022
  * 
  */
-
-// TODO Need to mouse support enabled, but verify functionality.
-// TODO Implement audio support
 
 #ifndef ESP32
 	#error "This firmware is only intended to run on ESP32 MCUs."
@@ -31,6 +28,7 @@ fabgl::SerialPortTerminalConnector  SerialPortTerminalConnector;
 #define KB_READER_STACK_SIZE 3000 // more stack is required for the UI (used inside Terminal.onVirtualKey)
 
 void disableWatchdogs() {
+	Serial.println("DEBUG: Disable watchdogs");
 	disableCore0WDT();
   	delay(100); // experienced crashes without this delay!
   	disableCore1WDT();
@@ -119,6 +117,9 @@ void configureKeyboardEvents() {
 }
 
 void setup() {
+	Serial.begin(115200);
+	delay(500);
+
 	disableWatchdogs();
 
   	Terminal.keyboardReaderTaskStackSize = KB_READER_STACK_SIZE;

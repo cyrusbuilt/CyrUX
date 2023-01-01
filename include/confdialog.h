@@ -9,10 +9,10 @@
 #include "restartdialog.h"
 
 #define TERMVERSION_MAJ 1
-#define TERMVERSION_MIN 0
+#define TERMVERSION_MIN 1
 
-#define PIN_RX 33
-#define PIN_TX 32
+#define PIN_RX 34
+#define PIN_TX 2
 #define TERM_BAUD_RATE 115200
 #define TERM_DATA_BITS 8
 #define TERM_STOP_BITS 1
@@ -181,7 +181,8 @@ struct ConfDialogApp : public uiApp {
     int y = 19;
 
     // little help
-    new uiStaticLabel(frame, "CyrUX Terminal - (c) 2022 by Cyrus Brunner", Point(30, y), true, STYLE_LABELHELP2);
+    // TODO this first line needs shifted to the right a bit
+    new uiStaticLabel(frame, "CyrUX Terminal - (c) 2022 by Cyrus Brunner", Point(65, y), true, STYLE_LABELHELP2);
     new uiStaticLabel(frame, "Press TAB key to move between fields", Point(100, y + 12), true, STYLE_LABELHELP);
     new uiStaticLabel(frame, "Outside this dialog press CTRL-ALT-F12 to reset settings", Point(52, y + 24), true, STYLE_LABELHELP);
 
@@ -410,7 +411,7 @@ struct ConfDialogApp : public uiApp {
     
     // configure serial port
     SerialPort.setSignals(PIN_RX, PIN_TX, GPIO_UNUSED, GPIO_UNUSED);
-    SerialPort.setup(2, TERM_BAUD_RATE, TERM_DATA_BITS, TERM_PARITY, TERM_STOP_BITS, FlowControl::Hardware);
+    SerialPort.setup(2, TERM_BAUD_RATE, TERM_DATA_BITS, TERM_PARITY, TERM_STOP_BITS, FlowControl::None);
   }
 };
 #endif
