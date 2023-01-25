@@ -11,7 +11,12 @@
 #define TERMVERSION_MAJ 1
 #define TERMVERSION_MIN 1
 
-#define PIN_RX 34
+// IMPORTANT NOTE: The TX/RX pin assignments here are inverted from the Net Labels.
+// This is for 2 reasons: 1) pin 34 can *only* be an input, therefore can only be
+// used for RX. 2) Since the Z50 bus is transmitting on pin 37 (TX), the pin it
+// ties to should be RX, and vice-versa for pin 2 (TX) on the ESP32 and pin 38 (RX)
+// on the Z50 bus.
+#define PIN_RX 34  
 #define PIN_TX 2
 #define TERM_BAUD_RATE 115200
 #define TERM_DATA_BITS 8
@@ -182,7 +187,7 @@ struct ConfDialogApp : public uiApp {
 
     // little help
     // TODO this first line needs shifted to the right a bit
-    new uiStaticLabel(frame, "CyrUX Terminal - (c) 2022 by Cyrus Brunner", Point(65, y), true, STYLE_LABELHELP2);
+    new uiStaticLabel(frame, "CyrUX Terminal - (c) 2022 by Cyrus Brunner", Point(80, y), true, STYLE_LABELHELP2);
     new uiStaticLabel(frame, "Press TAB key to move between fields", Point(100, y + 12), true, STYLE_LABELHELP);
     new uiStaticLabel(frame, "Outside this dialog press CTRL-ALT-F12 to reset settings", Point(52, y + 24), true, STYLE_LABELHELP);
 

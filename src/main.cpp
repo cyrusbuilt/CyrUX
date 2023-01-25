@@ -24,6 +24,7 @@ fabgl::SerialPortTerminalConnector  SerialPortTerminalConnector;
 
 #include "confdialog.h"
 
+//#define DEBUG
 #define INPUT_QUEUE_SIZE 2048     // 2048 good to pass vttest
 #define KB_READER_STACK_SIZE 3000 // more stack is required for the UI (used inside Terminal.onVirtualKey)
 
