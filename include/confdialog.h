@@ -9,7 +9,7 @@
 #include "restartdialog.h"
 
 #define TERMVERSION_MAJ 1
-#define TERMVERSION_MIN 1
+#define TERMVERSION_MIN 2
 
 // IMPORTANT NOTE: The TX/RX pin assignments here are inverted from the Net Labels.
 // This is for 2 reasons: 1) pin 34 can *only* be an input, therefore can only be
@@ -18,6 +18,7 @@
 // on the Z50 bus.
 #define PIN_RX 34  
 #define PIN_TX 2
+#define PIN_RST 14
 #define TERM_BAUD_RATE 115200
 #define TERM_DATA_BITS 8
 #define TERM_STOP_BITS 1
