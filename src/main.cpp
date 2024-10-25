@@ -2,7 +2,7 @@
  * @file main.cpp
  * @author Cyrus Brunner (cyrusbuilt at gmail dot com)
  * @brief 
- * @version 1.1
+ * @version 1.2
  * @date 2022-10-21
  * 
  * @copyright Copyright (c) 2022
@@ -47,7 +47,7 @@ void bootScreen() {
     	Terminal.printf("Keyboard Layout    : %s\r\n", PS2Controller.keyboard()->isKeyboardAvailable() ? SupportedLayouts::names()[ConfDialogApp::getKbdLayoutIndex()] : "No Keyboard");
     	Terminal.printf("Mouse              : %s\r\n", PS2Controller.mouse()->isMouseAvailable() ? "Yes" : "No");
     	Terminal.printf("Terminal Type      : %s\r\n", SupportedTerminals::names()[(int)ConfDialogApp::getTermType()]);
-    	Terminal.printf("Free Memory        : %d bytes\r\n", heap_caps_get_free_size(MALLOC_CAP_32BIT));
+    	Terminal.printf("Term Free Memory   : %d bytes\r\n", heap_caps_get_free_size(MALLOC_CAP_32BIT));
     	Terminal.write("\r\nPress F12 to change terminal configuration and CTRL-ALT-F12 to reset settings\r\n\n");
   	} else if (ConfDialogApp::getBootInfo() == BOOTINFO_TEMPDISABLED) {
     	preferences.putInt(PREF_BOOTINFO, BOOTINFO_ENABLED);
@@ -118,6 +118,10 @@ void configureKeyboardEvents() {
 }
 
 void setup() {
+	// Hold reset
+	pinMode(PIN_RST, OUTPUT);
+	digitalWrite(PIN_RST, LOW);
+
 	Serial.begin(115200);
 	delay(500);
 
@@ -145,6 +149,9 @@ void setup() {
 	bootScreen();
 
 	configureKeyboardEvents();
+
+	// Release reset
+	digitalWrite(PIN_RST, HIGH);
 }
 
 void loop() {
